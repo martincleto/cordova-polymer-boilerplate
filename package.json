@@ -1,0 +1,14 @@
+{
+    "name": "cordova-polymer-app",
+    "displayName": "CordovaPolymerApp",
+    "version": "1.0.0",
+    "description": "A Cordova framework boilerplate for shipping mobile apps based on Polymer.",
+    "keywords": ["cordova", "polymer", "android"],
+    "homepage": "https://github.com/martincleto/cordova-polymer-boilerplate#readme",
+    "main": "index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "author": "Santiago Martín-Cleto <martincleto@gmail.com>",
+    "license": "Apache-2.0"
+}
