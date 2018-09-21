@@ -8,9 +8,9 @@ Development environment details:
 - Cordova 8.0.0
 - Polymer CLI 1.8.0
 
-This boilerplate has been tested in the development environment described above for browser and android platforms.
+This boilerplate has been tested in the development environment described above only for browser and android [platforms](https://cordova.apache.org/docs/en/latest/guide/support/index.html).
 
-Feel free to [open an issue](https://github.com/martincleto/cordova-polymer-boilerplate/issues/new) for bugs and troubleshooting when used in other environments and/or to ship to other target platforms.
+Feel free to [open an issue](https://github.com/martincleto/cordova-polymer-boilerplate/issues/new) for bugs and troubleshooting when used in other environments and/or shipping to other target platforms.
 
 ## Requirements
 You need [Node.js](https://nodejs.org), [Cordova](https://cordova.apache.org/) and [Polymer CLI](https://github.com/Polymer/tools/tree/master/packages/cli) installed in your system.
@@ -29,9 +29,19 @@ You may check out the following articles if you don't have bash already availabl
 ### 1. Clone this repo
 `$ git clone https://github.com/martincleto/cordova-polymer-boilerplate`
 
-### 2. Add your application target platforms
-`$ cd cordova-polymer-boilerplate`
+### 2. Set your Polymer App name and path
+Edit [app.config.js](https://github.com/martincleto/cordova-polymer-boilerplate/app.config.js) file (in the project root) and set the name and the paths to the root and build folder of your Polymer app, e.g.:
 
+```
+module.exports = {
+    cordovaSrcPath: 'www', // don't change
+    polymerAppName: 'MyPolymerApp',
+    polymerAppPath: '../my-polymer-app', // relative from Cordova project root
+    polymerBuildPath: 'build/cordova' // relative from your Polymer App root
+}
+```
+
+### 3. Add your application target platforms
 And then add the target platforms for your app by using [Cordova CLI](https://cordova.apache.org/docs/en/latest/reference/cordova-cli/index.html), e.g.:
 
 `$ cordova platform add browser`
@@ -39,24 +49,6 @@ And then add the target platforms for your app by using [Cordova CLI](https://co
 `$ cordova platform add android`
 
 See "Develop for platforms" entry on [Cordova docs](https://cordova.apache.org/docs/en/latest/guide/overview/index.html) in order to accomplish your system requirements for the platforms you want to target.
-
-### 3. Set your Polymer App name and path
-Edit [app.config.js](https://github.com/martincleto/cordova-polymer-boilerplate/app.config.js) file (in the project root) and set the name of your Polymer app and the path where is located in your local, e.g.:
-
-```
-module.exports = {
-    polymerAppName: 'MyPolymerApp',
-    polymerAppPath: 'path/to/my/polymer/app'
-}
-```
-### 4. Link the Cordova project to your Polymer App
-If there is a `www` folder into the Cordova project root folder, just remove it.
-
-`$ rm -rf www`
-
-Create a symbolic link targeting your Polymer App **build path**, e.g.
-
-`$ ln -s path/to/my/polymer/app www`
 
 ### 5. Build the project
 
@@ -73,7 +65,7 @@ See Cordova [build](https://cordova.apache.org/docs/en/latest/reference/cordova-
 `$ cordova run <platform>`
 
 ## How it works
-This boilerplate uses a "before_build" hook to launch a [script](hooks/appBeforeBuild.js) which runs your Polymer App build to be subsequently handled by Cordova.
+This boilerplate uses a "before_prepare" hook which launchs a [script](hooks/appBeforePrepare.js) which runs your Polymer App build to be subsequently handled by Cordova, and creates a symlink from Cordova source directory (www) to the specified Polymer app build folder.
 
 Learn more about [Cordova hooks](https://cordova.apache.org/docs/en/latest/guide/appdev/hooks/index.html).
 

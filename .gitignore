@@ -62,6 +62,3 @@ typings/
 
 #VS IntelliSense
 jsconfig.json
-
-# Project folders
-www
