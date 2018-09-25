@@ -80,6 +80,24 @@ if (!isValidPath(srcDirPath) || !isValidPath(targetPath)) {
 const buildPathPieces = polymerBuildPath.split('/');
 const buildPath = path.join(targetPath, ...buildPathPieces);
 
+// @see https://stackoverflow.com/questions/18052762/remove-directory-which-is-not-empty#answer-32197381
+function deleteFolderRecursive (pathToDelete) {
+    if( fs.existsSync(pathToDelete) ) {
+        console.log(`Removing ${pathToDelete}...`);
+
+        fs.readdirSync(pathToDelete).forEach(file => {
+            const currentPath = path.join(pathToDelete, file);
+
+            if(fs.lstatSync(currentPath).isDirectory()) {
+                deleteFolderRecursive(currentPath);
+            } else {
+                fs.unlinkSync(currentPath);
+            }
+        });
+        fs.rmdirSync(pathToDelete);
+    }
+  };
+
 function runPolymerAppBuild () {
     return new Promise((resolve, reject) => {
         const buildCmd = exec('polymer build', { cwd: targetPath });
@@ -122,8 +140,7 @@ fs.lstat(cordovaSrcPath, (err, stats) => {
     let build;
 
     if (stats.isDirectory()) {
-        console.log(`Removing ${srcDirPath}...`);
-        fs.rmdirSync(srcDirPath);
+        deleteFolderRecursive(srcDirPath);
 
         build = runPolymerAppBuild();
 
