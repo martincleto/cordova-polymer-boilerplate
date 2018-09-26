@@ -131,6 +131,14 @@ function onBuildSucessCreateSymlink (createSymlink, successMsg) {
     }
 }
 
+function onBuildError(errorMsg) {
+    if (!fs.existsSync(cordovaSrcPath)) {
+        fs.mkdir(cordovaSrcPath);
+    }
+
+    exitWith(0, errorMsg);
+}
+
 fs.lstat(cordovaSrcPath, (err, stats) => {
     if (err) {
         exitWith(0, err);
@@ -156,6 +164,6 @@ fs.lstat(cordovaSrcPath, (err, stats) => {
     }
 
     build.catch(errorMsg => {
-        exitWith(0, errorMsg);
+        onBuildError(errorMsg);
     });
 });
